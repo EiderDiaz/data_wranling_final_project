@@ -15,13 +15,16 @@ class Project(db.Model):
     __tablename__ = 'projects'
     project_id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(length=50))
+	#es un vinculo con la tabla task
+    task = db.relationship("Task", cascade="all, delete-orphan")
 
 class Task(db.Model):
     __tablename__ = 'tasks'
     task_id = db.Column(db.Integer, primary_key=True)
     project_id = db.Column(db.Integer, db.ForeignKey('projects.project_id'))
     description = db.Column(db.String(length=50))
-    project = db.relationship("Project")
+    #es un vinculo con la tabla project
+	project = db.relationship("Project", backref='project')
 
 
 
