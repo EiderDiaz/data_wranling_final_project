@@ -24,7 +24,7 @@ class Task(db.Model):
     project_id = db.Column(db.Integer, db.ForeignKey('projects.project_id'))
     description = db.Column(db.String(length=50))
     #es un vinculo con la tabla project
-	project = db.relationship("Project", backref='project')
+    project = db.relationship("Project", backref="project")
 
 
 
