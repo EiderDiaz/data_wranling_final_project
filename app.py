@@ -43,7 +43,6 @@ def show_tasks(project_id):
 #ruta para añadir proyectos
 @app.route("/add/project", methods=['POST'])
 def add_project():
-	#Add project
     #el nombre del formulario que revisamos tiene que coincidir con el del template
 	if not request.form['project-title']:
         #mandamos alerta en caso que no tenga nada
@@ -60,7 +59,13 @@ def add_project():
 @app.route("/add/task/<project_id>", methods=['POST'])
 def add_task(project_id):
 	#Añade el codigo para insertar un  task en la db
-    return "task added succesfully"
-
+	if not request.form['task-description']:
+		flash("Enter a description for your new task", "red")
+	else:
+		task = Task(description=request.form['task-description'], project_id=project_id)
+		db.session.add(task)
+		db.session.commit()
+		flash("Task added successfully", "green")
+	return redirect(url_for('show_tasks', project_id=project_id))
 #correr la app en el localhost puerto 3000 (127.0.0.1:3000)
 app.run(debug=True, host="127.0.0.1", port=3000)
